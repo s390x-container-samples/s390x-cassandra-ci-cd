@@ -72,7 +72,7 @@ RUN apt-get update && apt-get install -y \
 && rm lib/jna-4.2.2.jar \
 && cd $SOURCE_ROOT \
 && cp $SOURCE_ROOT/jna/build/jna.jar $SOURCE_ROOT/cassandra/lib/jna-4.2.2.jar \
-&& cp -R $SOURCE_ROOT/cassandra /usr/local/ \
+&& cp -R $SOURCE_ROOT/cassandra /usr/share/ \
 && rm -rf  $SOURCE_ROOT/jna $SOURCE_ROOT/cassandra $SOURCE_ROOT/*.tar.gz  \
 && rm -rf /usr/local/cassandra/test \
 # Clean up source dir and unused packages/libraries
@@ -95,10 +95,10 @@ RUN apt-get update && apt-get install -y \
 EXPOSE 7000 7001 7199 9042 9160
 
 # Define mount points for conf files & data.
-VOLUME ["/usr/local/cassandra/data", "/usr/local/cassandra/conf"]
+VOLUME ["/usr/share/cassandra/data", "/usr/share/cassandra/conf"]
 
 # Set Path
-ENV PATH $PATH:/usr/local/cassandra/bin
+ENV PATH $PATH:/usr/share/cassandra/bin
 
 # Start Cassandra server
 CMD ["cassandra", "-Rf"]
