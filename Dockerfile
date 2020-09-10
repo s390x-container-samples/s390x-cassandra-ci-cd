@@ -74,7 +74,7 @@ RUN apt-get update && apt-get install -y \
 && cp $SOURCE_ROOT/jna/build/jna.jar $SOURCE_ROOT/cassandra/lib/jna-4.2.2.jar \
 && cp -R $SOURCE_ROOT/cassandra /usr/share/ \
 && rm -rf  $SOURCE_ROOT/jna $SOURCE_ROOT/cassandra $SOURCE_ROOT/*.tar.gz  \
-&& rm -rf /usr/local/cassandra/test \
+&& rm -rf /usr/share/cassandra/test \
 # Clean up source dir and unused packages/libraries
 && apt-get remove -y \
     automake \
