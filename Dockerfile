@@ -54,6 +54,9 @@ RUN apt-get update && apt-get install -y \
     tar \
     wget \
     unzip  \
+    perl \
+    perl-base \
+    libimage-magick-perl
 # Build JNA
 && cd $SOURCE_ROOT \
 && git clone https://github.com/java-native-access/jna.git \
@@ -75,6 +78,12 @@ RUN apt-get update && apt-get install -y \
 && cp -R $SOURCE_ROOT/cassandra /usr/share/ \
 && rm -rf  $SOURCE_ROOT/jna $SOURCE_ROOT/cassandra $SOURCE_ROOT/*.tar.gz  \
 && rm -rf /usr/share/cassandra/test \
+# Execute test script 
+WORKDIR /bin
+COPY plugins/cassandra_check.pl /bin/cassandra_check.pl
+
+ENTRYPOINT ["perl", "cassandra_check.pl"]
+
 # Clean up source dir and unused packages/libraries
 && apt-get remove -y \
     automake \
