@@ -31,6 +31,7 @@ WORKDIR $SOURCE_ROOT
 
 RUN unset JAVA_TOOL_OPTIONS
 ENV JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -XX:+UnlockExperimentalVMOptions"
+ENV JVM_OPTS="-XX:+UseCGroupMemoryLimitforHeap -XX:+UnlockExperimentalVMOptions"
 ENV ANT_OPTS="-Xms4G -Xmx4G"
 
 # Installing dependencies for Cassandra
