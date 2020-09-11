@@ -56,7 +56,7 @@ RUN apt-get update && apt-get install -y \
     unzip  \
     perl \
     perl-base \
-    libimage-magick-perl
+    libimage-magick-perl \
 # Build JNA
 && cd $SOURCE_ROOT \
 && git clone https://github.com/java-native-access/jna.git \
@@ -85,7 +85,7 @@ COPY plugins/cassandra_check.pl /bin/cassandra_check.pl
 ENTRYPOINT ["perl", "cassandra_check.pl"]
 
 # Clean up source dir and unused packages/libraries
-&& apt-get remove -y \
+RUN apt-get remove -y \
     automake \
     autoconf\
     make  \
