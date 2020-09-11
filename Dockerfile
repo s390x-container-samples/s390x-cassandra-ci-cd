@@ -75,17 +75,13 @@ RUN apt-get update && apt-get install -y \
 && rm lib/jna-4.2.2.jar \
 && cd $SOURCE_ROOT \
 && cp $SOURCE_ROOT/jna/build/jna.jar $SOURCE_ROOT/cassandra/lib/jna-4.2.2.jar \
-&& cp -R $SOURCE_ROOT/cassandra /usr/share/ \
+&& mkdir -p /usr/share/cassandra \
+&& mv $SOURCE_ROOT/cassandra /usr/share/cassandra \
 && rm -rf  $SOURCE_ROOT/jna $SOURCE_ROOT/cassandra $SOURCE_ROOT/*.tar.gz  \
 && rm -rf /usr/share/cassandra/test \
-# Execute test script 
-WORKDIR /bin
-COPY plugins/cassandra_check.pl /bin/cassandra_check.pl
-
-ENTRYPOINT ["perl", "cassandra_check.pl"]
 
 # Clean up source dir and unused packages/libraries
-RUN apt-get remove -y \
+&& apt-get remove -y \
     automake \
     autoconf\
     make  \
@@ -99,6 +95,12 @@ RUN apt-get remove -y \
     git   \
 && apt autoremove -y \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Execute test script 
+WORKDIR /bin
+COPY plugins/cassandra_check.pl /bin/cassandra_check.pl
+
+ENTRYPOINT ["perl", "cassandra_check.pl"]
 
 # Expose Ports
 EXPOSE 7000 7001 7199 9042 9160
