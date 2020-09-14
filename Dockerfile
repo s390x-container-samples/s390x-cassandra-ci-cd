@@ -77,7 +77,7 @@ RUN apt-get update && apt-get install -y \
 && cd $SOURCE_ROOT \
 && cp $SOURCE_ROOT/jna/build/jna.jar $SOURCE_ROOT/cassandra/lib/jna-4.2.2.jar \
 && mkdir -p /usr/share/cassandra \
-&& mv $SOURCE_ROOT/cassandra /usr/share/cassandra \
+&& mv $SOURCE_ROOT/cassandra /usr/share \
 && rm -rf  $SOURCE_ROOT/jna $SOURCE_ROOT/cassandra $SOURCE_ROOT/*.tar.gz  \
 && rm -rf /usr/share/cassandra/test \
 
@@ -97,11 +97,6 @@ RUN apt-get update && apt-get install -y \
 && apt autoremove -y \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Execute test script 
-WORKDIR /bin
-COPY plugins/cassandra_check.pl /bin/cassandra_check.pl
-
-ENTRYPOINT ["perl", "cassandra_check.pl"]
 
 # Expose Ports
 EXPOSE 7000 7001 7199 9042 9160
@@ -114,3 +109,9 @@ ENV PATH $PATH:/usr/share/cassandra/bin
 
 # Start Cassandra server
 CMD ["cassandra", "-Rf"]
+
+# Execute test script 
+WORKDIR /bin
+COPY plugins/cassandra_check.pl /bin/cassandra_check.pl
+
+ENTRYPOINT ["perl", "cassandra_check.pl"]
