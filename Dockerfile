@@ -113,7 +113,7 @@ VOLUME ["/usr/share/cassandra/data", "/usr/share/cassandra/conf"]
 ENV PATH $PATH:/usr/share/cassandra/bin
 
 # Start Cassandra server
-CMD ["cassandra", "-Rf"]
+CMD ["cassandra", "-R", "-f"]
 
 # Execute test script 
 WORKDIR /bin
