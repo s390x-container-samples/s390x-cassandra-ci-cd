@@ -31,7 +31,7 @@ WORKDIR $SOURCE_ROOT
 
 RUN unset JAVA_TOOL_OPTIONS
 ENV JAVA_TOOL_OPTIONS="-Dfile.encoding=UTF8 -XX:+UnlockExperimentalVMOptions"
-ENV JVM_OPTS='-XX:+UseCGroupMemoryLimitForHeap -XX:+UnlockExperimentalVMOptions'
+#ENV JVM_OPTS='-XX:+UnlockExperimentalVMOptions'
 ENV ANT_OPTS="-Xms4G -Xmx4G"
 
 # Installing dependencies for Cassandra
@@ -76,9 +76,8 @@ RUN apt-get update && apt-get install -y \
 && rm lib/jna-4.2.2.jar \
 && cd $SOURCE_ROOT \
 && cp $SOURCE_ROOT/jna/build/jna.jar $SOURCE_ROOT/cassandra/lib/jna-4.2.2.jar \
-&& mkdir -p /usr/share/cassandra \
-&& mv $SOURCE_ROOT/cassandra /usr/share \
-&& rm -rf  $SOURCE_ROOT/jna $SOURCE_ROOT/cassandra $SOURCE_ROOT/*.tar.gz  \
+&& ln -s $SOURCE_ROOT/cassandra /usr/share/cassandra \
+&& rm -rf  $SOURCE_ROOT/jna $SOURCE_ROOT/*.tar.gz  \
 && rm -rf /usr/share/cassandra/test \
 
 # Clean up source dir and unused packages/libraries
@@ -99,6 +98,12 @@ RUN apt-get update && apt-get install -y \
 
 
 # Expose Ports
+
+# 7000: intra-node communication
+# 7001: TLS intra-node communication
+# 7199: JMX
+# 9042: CQL
+# 9160: thrift service
 EXPOSE 7000 7001 7199 9042 9160
 
 # Define mount points for conf files & data.
