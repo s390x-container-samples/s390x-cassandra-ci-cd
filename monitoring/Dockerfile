@@ -18,8 +18,5 @@ ENTRYPOINT ["perl", "cassandra_check.pl"]
 
 # Clean up source dir and unused packages
 RUN apt-get remove -y \
-    perl \
-    libimage-magick-perl\
-    perl-base  \
 && apt autoremove -y \
 && apt-get clean && rm -rf /var/lib/apt/lists/*
