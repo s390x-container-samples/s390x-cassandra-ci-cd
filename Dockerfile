@@ -55,9 +55,6 @@ RUN apt-get update && apt-get install -y \
     tar \
     wget \
     unzip  \
-    perl \
-    perl-base \
-    libimage-magick-perl \
 # Build JNA
 && cd $SOURCE_ROOT \
 && git clone https://github.com/java-native-access/jna.git \
@@ -115,8 +112,3 @@ ENV PATH $PATH:/usr/share/cassandra/bin
 # Start Cassandra server
 CMD ["cassandra", "-R", "-f"]
 
-# Execute test script 
-WORKDIR /bin
-COPY plugins/cassandra_check.pl /bin/cassandra_check.pl
-
-ENTRYPOINT ["perl", "cassandra_check.pl"]
